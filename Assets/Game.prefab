@@ -46,6 +46,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Player: {fileID: 0}
   ObstaclePrefab: {fileID: -7151682742259454080, guid: 8e07a05a2c133a443bd63c09b0b7b886, type: 3}
+  ObstaclePrefab2: {fileID: -7151682742259454080, guid: 47e78f28368d33e4ea5699c1531c2dcc, type: 3}
+  ObstaclePrefab3: {fileID: -7151682742259454080, guid: 395a3458c19ca514db34c9550a2a4344, type: 3}
   SpawnLocation: {fileID: 0}
   BackgroundParticleSystem: {fileID: 0}
   MainCamera: {fileID: 0}

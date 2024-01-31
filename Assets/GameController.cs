@@ -13,6 +13,8 @@ public class GameController : MonoBehaviour
 
     public PlayerController Player;
     public Collidable ObstaclePrefab;
+    public Collidable ObstaclePrefab2;
+    public Collidable ObstaclePrefab3;
     public Transform SpawnLocation;
     public ParticleSystem BackgroundParticleSystem;
     public Camera MainCamera;
@@ -37,7 +39,9 @@ public class GameController : MonoBehaviour
         spawnTimer += Time.deltaTime;
         if (spawnTimer > SpawnInterval)
         {
-            Collidable obj = Instantiate(ObstaclePrefab, SpawnLocation.position + new Vector3(0, Random.Range(-5f, 5f), 0), Quaternion.identity);
+            int rand = Random.Range(0, 3);
+            Collidable prefabToSpawn =  rand== 0 ? ObstaclePrefab : (rand==1 ? ObstaclePrefab2:ObstaclePrefab3);
+            Collidable obj = Instantiate(prefabToSpawn, SpawnLocation.position + new Vector3(0, Random.Range(-5f, 5f), 0), Quaternion.identity);
             obj.GetComponent<Rigidbody2D>().velocity = Vector2.left * 5f;
             obj.SpriteColorIndex = Random.Range(0, Colors.Length);
             spawnTimer = 0;
