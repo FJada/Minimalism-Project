@@ -2,14 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
     public static float MovementForce = 15f;
-    public static float MovementAccelerationFactor = .08f;
-    public static float Score;
+    public static float HighScore = 0;
+    public static float Score = 0;
     public static float SpawnInterval = 0.5f;
+    public static bool GameOver = false;
+
     public static float MinSpawnInterval = 0.1f;
+    public static float MovementAccelerationFactor = .08f;
     public static float SpawnIntervalChangeRate = -0.01f;
     public static Color[] Colors = new[] { Color.white, Color.black };
 
@@ -21,8 +25,9 @@ public class GameController : MonoBehaviour
     public Transform SpawnLocation;
     public ParticleSystem BackgroundParticleSystem;
     public TextMeshProUGUI ScoreText;
-
-    public bool GameOver = false;
+    public GameObject DeathScreen;
+    public TextMeshProUGUI DeathScoreText;
+    public TextMeshProUGUI HighScoreText;
 
     private float spawnTimer = 0;
     private List<Collidable> collidables;
@@ -30,6 +35,11 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        MovementForce = 15f;
+        MovementAccelerationFactor = .08f;
+        Score = 0;
+        SpawnInterval = 0.5f;
+        GameOver = false;
     }
 
     // Update is called once per frame
@@ -37,13 +47,37 @@ public class GameController : MonoBehaviour
     {
         if (GameOver) 
         {
-            return; 
+            HighScoreText.fontSize = 25 + (Mathf.Sin(Time.time * 5) * 5);
+            // Center of the screen
+            if (DeathScreen.transform.position.y < 314)
+            {
+                DeathScreen.transform.Translate(Vector3.up * 600f * Time.deltaTime);
+            }
+            else
+            {
+                var pos = DeathScreen.transform.position;
+                DeathScreen.transform.position = new Vector3(pos.x, 314);
+                // Can only restart when the score is displayed at the center
+                if (Input.GetKeyUp(KeyCode.Space))
+                {
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                }
+            }
+            return;
         }
 
         if (Player.IsDead) {
             GameOver = true;
             MovementForce *= -4;
             BackgroundParticleSystem.Pause();
+            ScoreText.gameObject.SetActive(false);
+            DeathScoreText.text = $"Score: {((int)Score)}";
+
+            if (Score > HighScore)
+            {
+                HighScoreText.gameObject.SetActive(true);
+                HighScore = Score;
+            }
         }
 
         spawnTimer += Time.deltaTime;
@@ -69,6 +103,7 @@ public class GameController : MonoBehaviour
         SpawnInterval += SpawnIntervalChangeRate * Time.deltaTime;
         MovementForce *= 1 + MovementAccelerationFactor * Time.deltaTime;
         Score += MovementForce * Time.deltaTime;
-        ScoreText.text = $"Score: {((int)Score)}";
+        var displayHighScore = HighScore > Score ? HighScore : Score;
+        ScoreText.text = $"Score: {((int)Score)}\nHigh Score: {(int)displayHighScore}";
     }
 }

@@ -39,7 +39,7 @@ public class Collidable : MonoBehaviour
             rb.velocity = Vector2.zero;
         }
 
-        if (Input.GetKeyUp(KeyCode.Space))
+        if (Input.GetKeyUp(KeyCode.Space) && !GameController.GameOver)
         {
             SpriteColorIndex = (SpriteColorIndex + 1) % GameController.Colors.Length;
             SpriteRenderer.color = SpriteColor;
