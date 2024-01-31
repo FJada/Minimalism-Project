@@ -48,20 +48,9 @@ public class GameController : MonoBehaviour
         if (GameOver) 
         {
             HighScoreText.fontSize = 25 + (Mathf.Sin(Time.time * 5) * 5);
-            // Center of the screen
-            if (DeathScreen.transform.position.y < 314)
+            if (Input.GetKeyUp(KeyCode.Space))
             {
-                DeathScreen.transform.Translate(Vector3.up * 600f * Time.deltaTime);
-            }
-            else
-            {
-                var pos = DeathScreen.transform.position;
-                DeathScreen.transform.position = new Vector3(pos.x, 314);
-                // Can only restart when the score is displayed at the center
-                if (Input.GetKeyUp(KeyCode.Space))
-                {
-                    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-                }
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             }
             return;
         }
@@ -72,6 +61,7 @@ public class GameController : MonoBehaviour
             BackgroundParticleSystem.Pause();
             ScoreText.gameObject.SetActive(false);
             DeathScoreText.text = $"Score: {((int)Score)}";
+            DeathScreen.SetActive(true);
 
             if (Score > HighScore)
             {
