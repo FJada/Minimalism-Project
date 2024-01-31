@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
         main.startColor = new ParticleSystem.MinMaxGradient(SpriteColor);
         SpriteRenderer.color = SpriteColor;
         gameObject.layer = LayerMask.NameToLayer($"Color{SpriteColorIndex}");
-        Collider.excludeLayers = 1 << gameObject.layer;
+        // Collider.excludeLayers = 1 << gameObject.layer;
     }
 
     // Update is called once per frame
@@ -50,12 +50,20 @@ public class PlayerController : MonoBehaviour
         Collidable component;
 
         // Only proceed if the other object is an obstacle
-        if (!collision.gameObject.TryGetComponent(out component)) {
+        if (!collision.gameObject.TryGetComponent(out component))
+        {
+            return;
+        }
+
+        if (component.IsDead)
+        {
             return;
         }
 
         // No issue if the colors match
-        if (component.SpriteColor == SpriteColor) {
+        if (component.SpriteColor == SpriteColor)
+        {
+            component.Die();
             return;
         }
 

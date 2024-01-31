@@ -5112,10 +5112,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 664130093}
     - target: {fileID: 2495724877895902355, guid: a0187588d5bb6564d8113977f1277136, type: 3}
-      propertyPath: ObstaclePrefab
-      value: 
-      objectReference: {fileID: -7151682742259454080, guid: 8e07a05a2c133a443bd63c09b0b7b886, type: 3}
-    - target: {fileID: 2495724877895902355, guid: a0187588d5bb6564d8113977f1277136, type: 3}
       propertyPath: BackgroundParticleSystem
       value: 
       objectReference: {fileID: 225435180}
@@ -5210,30 +5206,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2342743497214660437, guid: 476130218a7b2af47be195d7970a1c0f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3201066000849946429, guid: 476130218a7b2af47be195d7970a1c0f, type: 3}
-      propertyPath: m_SortingOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4987524624802587618, guid: 476130218a7b2af47be195d7970a1c0f, type: 3}
-      propertyPath: moveWithTransform
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5044573030947458555, guid: 476130218a7b2af47be195d7970a1c0f, type: 3}
-      propertyPath: m_BodyType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5044573030947458555, guid: 476130218a7b2af47be195d7970a1c0f, type: 3}
-      propertyPath: m_Simulated
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5044573030947458555, guid: 476130218a7b2af47be195d7970a1c0f, type: 3}
-      propertyPath: m_Constraints
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5044573030947458555, guid: 476130218a7b2af47be195d7970a1c0f, type: 3}
-      propertyPath: m_GravityScale
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5156495595906670066, guid: 476130218a7b2af47be195d7970a1c0f, type: 3}

@@ -9,6 +9,8 @@ public class Collidable : MonoBehaviour
     SpriteRenderer SpriteRenderer;
     Collider2D Collider;
 
+    public bool IsDead { get; private set; } = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -16,13 +18,20 @@ public class Collidable : MonoBehaviour
         SpriteRenderer.color = SpriteColor;
         Collider = GetComponent<Collider2D>();
         gameObject.layer = LayerMask.NameToLayer($"Color{SpriteColorIndex}");
-        Debug.Log(LayerMask.NameToLayer($"Color{SpriteColorIndex}"));
-        Collider.excludeLayers = 1 << gameObject.layer;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (IsDead)
+        {
+            transform.localScale *= 0.99f;
+        }
+        if (transform.localScale.magnitude < 0.1 || transform.position.x < -8)
+        {
+            Destroy(gameObject);
+        }
+
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
         rb.AddForce(GameController.MovementForce * Time.deltaTime * Vector2.left);
         if (GameController.MovementForce == 0)
@@ -35,7 +44,13 @@ public class Collidable : MonoBehaviour
             SpriteColorIndex = (SpriteColorIndex + 1) % GameController.Colors.Length;
             SpriteRenderer.color = SpriteColor;
             gameObject.layer = LayerMask.NameToLayer($"Color{SpriteColorIndex}");
-            Collider.excludeLayers = 1 << gameObject.layer;
         }
+    }
+
+    public void Die()
+    {
+        if (IsDead) return;
+        IsDead = true;
+        GetComponentInChildren<ParticleSystem>().Play();
     }
 }
