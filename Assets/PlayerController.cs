@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -10,6 +11,10 @@ public class PlayerController : MonoBehaviour
     Collider2D Collider;
 
     public bool IsDead { get; private set; } = false; 
+
+    private float cosX = 0;
+    private float moveFreq = 2;
+    private float moveHeight = 8;
 
     // Start is called before the first frame update
     void Start()
@@ -36,6 +41,8 @@ public class PlayerController : MonoBehaviour
                 transform.localScale = Vector3.zero;
             }
         }
+        transform.Translate(new Vector2(0, ((float)Math.Cos(cosX)) * moveHeight * Time.deltaTime));
+        cosX += ((float)Math.PI) * Time.deltaTime;
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -53,7 +60,9 @@ public class PlayerController : MonoBehaviour
         }
 
         IsDead = true;
-        GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
+        var rb = GetComponent<Rigidbody2D>();
+        rb.constraints = RigidbodyConstraints2D.None;
+        rb.gravityScale = 1;
         GetComponentInChildren<ParticleSystem>().Stop();
     }
 }
