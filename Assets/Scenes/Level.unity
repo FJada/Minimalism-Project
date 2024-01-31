@@ -5800,6 +5800,10 @@ PrefabInstance:
       propertyPath: Camera
       value: 
       objectReference: {fileID: 519420033}
+    - target: {fileID: -4919861805171944657, guid: 476130218a7b2af47be195d7970a1c0f, type: 3}
+      propertyPath: audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 34958374d6e2d9e45bd16e97fee16164, type: 3}
     - target: {fileID: 2342743497214660437, guid: 476130218a7b2af47be195d7970a1c0f, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.0754514

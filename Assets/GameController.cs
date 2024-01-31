@@ -48,7 +48,7 @@ public class GameController : MonoBehaviour
         if (GameOver) 
         {
             HighScoreText.fontSize = 25 + (Mathf.Sin(Time.time * 5) * 5);
-            if (Input.GetKeyUp(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space))
             {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             }

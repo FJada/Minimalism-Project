@@ -8,8 +8,11 @@ public class Collidable : MonoBehaviour
     public Color SpriteColor { get { return GameController.Colors[SpriteColorIndex]; } }
     SpriteRenderer SpriteRenderer;
     Collider2D Collider;
+    AudioSource AudioSource;
 
     public bool IsDead { get; private set; } = false;
+
+    private float[] deathClipStartTimes = new []{ 0, 3f, 7f };
 
     // Start is called before the first frame update
     void Start()
@@ -18,6 +21,7 @@ public class Collidable : MonoBehaviour
         SpriteRenderer.color = SpriteColor;
         Collider = GetComponent<Collider2D>();
         gameObject.layer = LayerMask.NameToLayer($"Color{SpriteColorIndex}");
+        AudioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -25,11 +29,7 @@ public class Collidable : MonoBehaviour
     {
         if (IsDead)
         {
-            transform.localScale *= 0.99f;
-        }
-        if (transform.localScale.magnitude < 0.1 || transform.position.x < -8)
-        {
-            Destroy(gameObject);
+            transform.localScale *= 0.95f;
         }
 
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
@@ -39,7 +39,7 @@ public class Collidable : MonoBehaviour
             rb.velocity = Vector2.zero;
         }
 
-        if (Input.GetKeyUp(KeyCode.Space) && !GameController.GameOver)
+        if (Input.GetKeyDown(KeyCode.Space) && !GameController.GameOver)
         {
             SpriteColorIndex = (SpriteColorIndex + 1) % GameController.Colors.Length;
             SpriteRenderer.color = SpriteColor;
@@ -52,5 +52,18 @@ public class Collidable : MonoBehaviour
         if (IsDead) return;
         IsDead = true;
         GetComponentInChildren<ParticleSystem>().Play();
+        StartCoroutine(PostDeath());
+    }
+
+    public IEnumerator PostDeath()
+    {
+        
+        AudioSource.time = deathClipStartTimes[Random.Range(0, deathClipStartTimes.Length)];
+        AudioSource.Play();
+        AudioSource.pitch = 1.5f;
+        yield return new WaitForSeconds(1.5f);
+        Destroy(gameObject);
+        AudioSource.Stop();
+        yield return null;
     }
 }

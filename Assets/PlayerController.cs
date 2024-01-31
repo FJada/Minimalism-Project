@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -9,6 +10,7 @@ public class PlayerController : MonoBehaviour
 
     SpriteRenderer SpriteRenderer;
     ParticleSystem ParticleSystem;
+    AudioSource AudioSource;
     Collider2D Collider;
 
     public bool IsDead { get; private set; } = false; 
@@ -23,6 +25,7 @@ public class PlayerController : MonoBehaviour
         SpriteRenderer = GetComponent<SpriteRenderer>();
         ParticleSystem = GetComponentInChildren<ParticleSystem>();
         Collider = GetComponent<Collider2D>();
+        AudioSource = GetComponent<AudioSource>();
         var main = ParticleSystem.main;
         main.startColor = new ParticleSystem.MinMaxGradient(SpriteColor);
         SpriteRenderer.color = SpriteColor;
@@ -41,6 +44,12 @@ public class PlayerController : MonoBehaviour
             {
                 transform.localScale = Vector3.zero;
             }
+        }
+        if (Input.GetKeyDown(KeyCode.Space) && !GameController.GameOver)
+        {
+            AudioSource.time = 0f;
+            AudioSource.volume = 0.5f;
+            AudioSource.Play();
         }
         transform.Translate(new Vector2(0, ((float)Math.Cos(cosX)) * moveHeight * Time.deltaTime));
         cosX += ((float)Math.PI) * Time.deltaTime;
@@ -69,7 +78,6 @@ public class PlayerController : MonoBehaviour
             GameController.Score += GameController.MovementForce * 2;
             return;
         }
-
         IsDead = true;
         var rb = GetComponent<Rigidbody2D>();
         rb.constraints = RigidbodyConstraints2D.None;
