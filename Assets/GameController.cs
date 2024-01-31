@@ -8,6 +8,8 @@ public class GameController : MonoBehaviour
     public static float MovementAccelerationFactor = .08f;
     public static float Score;
     public static float SpawnInterval = 0.5f;
+    public static float MinSpawnInterval = 0.1f;
+    public static float SpawnIntervalChangeRate = -0.01f;
     public static Color[] Colors = new[] { Color.white, Color.black };
 
 
@@ -17,6 +19,8 @@ public class GameController : MonoBehaviour
     public Collidable ObstaclePrefab3;
     public Transform SpawnLocation;
     public ParticleSystem BackgroundParticleSystem;
+
+    public bool GameOver = false;
 
     private float spawnTimer = 0;
     private List<Collidable> collidables;
@@ -29,12 +33,17 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Player.IsDead) {
-            MovementForce *= 0.5f;
-            BackgroundParticleSystem.Pause();
-            MovementForce = 0;
-            return;
+        if (GameOver) 
+        {
+            return; 
         }
+
+        if (Player.IsDead) {
+            GameOver = true;
+            MovementForce *= -4;
+            BackgroundParticleSystem.Pause();
+        }
+
         spawnTimer += Time.deltaTime;
         if (spawnTimer > SpawnInterval)
         {
@@ -46,6 +55,7 @@ public class GameController : MonoBehaviour
             spawnTimer = 0;
         }
 
+        SpawnInterval += SpawnIntervalChangeRate * Time.deltaTime;
         MovementForce *= 1 + MovementAccelerationFactor * Time.deltaTime;
         Score += -MovementForce * Time.deltaTime;
     }
