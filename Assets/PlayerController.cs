@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     ParticleSystem ParticleSystem;
     Collider2D Collider;
 
-    public bool IsDead { get; private set; } = false;
+    public bool IsDead { get; private set; } = false; 
 
     // Start is called before the first frame update
     void Start()

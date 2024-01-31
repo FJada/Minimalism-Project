@@ -25,6 +25,10 @@ public class Collidable : MonoBehaviour
     {
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
         rb.AddForce(GameController.MovementForce * Time.deltaTime * Vector2.left);
+        if (GameController.MovementForce == 0)
+        {
+            rb.velocity = Vector2.zero;
+        }
 
         if (Input.GetKeyUp(KeyCode.Space))
         {
