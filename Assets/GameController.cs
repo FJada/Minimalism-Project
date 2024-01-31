@@ -17,7 +17,6 @@ public class GameController : MonoBehaviour
     public Collidable ObstaclePrefab3;
     public Transform SpawnLocation;
     public ParticleSystem BackgroundParticleSystem;
-    public Camera MainCamera;
 
     private float spawnTimer = 0;
     private List<Collidable> collidables;

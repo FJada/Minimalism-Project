@@ -5,6 +5,7 @@ public class PlayerController : MonoBehaviour
 {
     int SpriteColorIndex = 0;
     public Color SpriteColor { get { return GameController.Colors[SpriteColorIndex]; } }
+    public CameraController Camera;
 
     SpriteRenderer SpriteRenderer;
     ParticleSystem ParticleSystem;
@@ -63,6 +64,7 @@ public class PlayerController : MonoBehaviour
         // No issue if the colors match
         if (component.SpriteColor == SpriteColor)
         {
+            Camera.Shake(0.5f, 0.15f);
             component.Die();
             return;
         }
