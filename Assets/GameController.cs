@@ -30,6 +30,7 @@ public class GameController : MonoBehaviour
     public TextMeshProUGUI HighScoreText;
 
     private float spawnTimer = 0;
+    private float gameOverDelay = 0f;
     private List<Collidable> collidables;
 
     // Start is called before the first frame update
@@ -47,8 +48,10 @@ public class GameController : MonoBehaviour
     {
         if (GameOver) 
         {
+            gameOverDelay -= Time.deltaTime;
             HighScoreText.fontSize = 25 + (Mathf.Sin(Time.time * 5) * 5);
-            if (Input.GetKeyDown(KeyCode.Space))
+            // To avoid accidental restart upon death
+            if (Input.GetKeyUp(KeyCode.Space) && gameOverDelay <= 0)
             {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             }
@@ -62,6 +65,7 @@ public class GameController : MonoBehaviour
             ScoreText.gameObject.SetActive(false);
             DeathScoreText.text = $"Score: {((int)Score)}";
             DeathScreen.SetActive(true);
+            gameOverDelay = 0.5f;
 
             if (Score > HighScore)
             {
