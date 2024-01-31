@@ -66,6 +66,7 @@ public class PlayerController : MonoBehaviour
         {
             Camera.Shake(0.5f, 0.15f);
             component.Die();
+            GameController.Score += GameController.MovementForce * 2;
             return;
         }
 

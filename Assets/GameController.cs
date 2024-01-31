@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
@@ -19,6 +20,7 @@ public class GameController : MonoBehaviour
     public Collidable ObstaclePrefab3;
     public Transform SpawnLocation;
     public ParticleSystem BackgroundParticleSystem;
+    public TextMeshProUGUI ScoreText;
 
     public bool GameOver = false;
 
@@ -50,13 +52,23 @@ public class GameController : MonoBehaviour
             int rand = Random.Range(0, 3);
             Collidable prefabToSpawn =  rand== 0 ? ObstaclePrefab : (rand==1 ? ObstaclePrefab2:ObstaclePrefab3);
             Collidable obj = Instantiate(prefabToSpawn, SpawnLocation.position + new Vector3(0, Random.Range(-5f, 5f), 0), Quaternion.identity);
-            obj.GetComponent<Rigidbody2D>().velocity = Vector2.left * 5f;
+            var rb = obj.GetComponent<Rigidbody2D>();
+            if (MovementForce < 50)
+            {
+                rb.velocity = Vector2.left * 5f;
+            }
+            else
+            {
+                // Add some difficulty
+                rb.velocity = new Vector2(-5f, Random.Range(-1f, 1f));
+            }
             obj.SpriteColorIndex = Random.Range(0, Colors.Length);
             spawnTimer = 0;
         }
 
         SpawnInterval += SpawnIntervalChangeRate * Time.deltaTime;
         MovementForce *= 1 + MovementAccelerationFactor * Time.deltaTime;
-        Score += -MovementForce * Time.deltaTime;
+        Score += MovementForce * Time.deltaTime;
+        ScoreText.text = $"Score: {((int)Score)}";
     }
 }
